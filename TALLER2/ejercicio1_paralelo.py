@@ -50,7 +50,9 @@ def procesar_imagenes_paralelo(lista_imagenes, num_procesos=None):
 
 
 if __name__ == '__main__':
-    directorio_imagenes = "C:/Users/sebas/Desktop/Universidad/PARALELAS/TALLER2/img"  
+    carpeta = os.path.dirname(os.path.abspath(__file__))
+    directorio_imagenes = os.path.join(carpeta, "imagenesParalelo")
+
     lista_imagenes = [os.path.join(directorio_imagenes, f) for f in
                        os.listdir(directorio_imagenes) if
                        os.path.isfile(os.path.join(directorio_imagenes, f))

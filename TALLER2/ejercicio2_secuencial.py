@@ -1,5 +1,5 @@
 import time
-
+import os
 def procesar_texto_secuencial(ruta_entrada, ruta_salida):
     """Procesa el archivo de texto secuencialmente."""
     try:
@@ -12,8 +12,12 @@ def procesar_texto_secuencial(ruta_entrada, ruta_salida):
         print(f"Error: No se encontró el archivo {ruta_entrada}")
 
 if __name__ == '__main__':
-    ruta_entrada = "C:/Users/sebas/Desktop/Universidad/PARALELAS/TALLER2/texto_entrada.txt"
-    ruta_salida = "C:/Users/sebas/Desktop/Universidad/PARALELAS/TALLER2/texto_salida_secuencial.txt"
+    # Carpeta donde está este archivo .py
+    carpeta = os.path.dirname(os.path.abspath(__file__))
+    
+    ruta_entrada = os.path.join(carpeta, "texto_entrada.txt")
+    ruta_salida = os.path.join(carpeta, "texto_salida_secuencial.txt")
+    
 
     inicio = time.time()
     procesar_texto_secuencial(ruta_entrada, ruta_salida)

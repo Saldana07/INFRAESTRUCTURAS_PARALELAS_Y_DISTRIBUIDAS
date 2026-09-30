@@ -1,6 +1,6 @@
 import time
 import multiprocessing as mp
-import os
+import threading
 
 # Tamaño del lote (puedes ajustarlo según la RAM/CPU)
 TAMANO_LOTE =15000
@@ -88,12 +88,9 @@ def procesar_texto_pipeline(ruta_entrada, ruta_salida):
 
 
 if __name__ == '__main__':
-     # Carpeta donde está este archivo .py
-    carpeta = os.path.dirname(os.path.abspath(__file__))
-    
-    ruta_entrada = os.path.join(carpeta, "texto_entrada.txt")
-    ruta_salida = os.path.join(carpeta, "texto_salida_pipeline.txt")
-    
+    ruta_entrada = "C:/Users/sebas/Desktop/Universidad/PARALELAS/TALLER2/texto_entrada.txt"
+    ruta_salida = "C:/Users/sebas/Desktop/Universidad/PARALELAS/TALLER2/texto_salida_secuencial.txt"
+
     
     inicio = time.time()
     procesar_texto_pipeline(ruta_entrada, ruta_salida)

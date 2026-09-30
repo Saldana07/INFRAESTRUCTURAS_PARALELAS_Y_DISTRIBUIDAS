@@ -6,3 +6,6 @@ img/
 *.jpeg
 *.webp
 *.gif
+TALLER2/texto_entrada.txt
+TALLER2/texto_salida_pipeline.txt
+TALLER2/texto_salida_secuencial.txt
