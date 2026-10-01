@@ -31,21 +31,29 @@ Al observar las tres pruebas, se evidencia claramente el impacto del *overhead* 
 
 ## Ejercicio 2: Procesamiento de Texto de Gran Escala
 
-Este ejercicio evalúa el rendimiento al procesar un archivo de texto masivo.
+Este ejercicio evalúa el rendimiento al procesar archivos de texto masivos con diferentes niveles de complejidad computacional. Ambos archivos constan de **521.356 líneas**.
 
-### Características del Archivo de Entrada
-* **Líneas totales:** 521.356
-* **Caracteres totales:** 111.760.632 (aprox. 111 MB de texto puro)
+### Prueba 1: Texto de Complejidad Estándar
+Archivo con una distribución normal de caracteres y espacios.
 
-### Resultados de Ejecución
+**Resultados:**
+* **Tiempo total de procesamiento secuencial:** 1.9037 segundos
+* **Tiempo total de procesamiento paralelo (Pipeline):** 1.1468 segundos
 
-**Procesamiento Secuencial**
-* **Tiempo total:** 1.9037 segundos
-* **Archivo de salida:** `...\TALLER2\texto_salida_secuencial.txt`
+### Prueba 2: Texto de Alta Dificultad Computacional
+Archivo diseñado específicamente para estresar el procesador y las funciones de limpieza. 
+**Dificultades introducidas:**
+1. **Exceso de espacios y tabulaciones:** Líneas con cientos de espacios en blanco al inicio y al final, obligando a la función `.strip()` a iterar mucho más para limpiar cada extremo.
+2. **Líneas excesivamente largas en minúsculas:** Cadenas de texto repetitivas de gran longitud para forzar a la función `.upper()` a transformar una cantidad masiva de caracteres por ciclo.
+3. **Mayor peso en memoria:** Al multiplicar el tamaño de cada línea, se eleva considerablemente la carga de lectura y escritura en disco.
 
-**Procesamiento Paralelo (Pipeline)**
-* **Tiempo total:** 1.1468 segundos
-* **Archivo de salida:** `...\TALLER2\texto_salida_pipeline.txt`
+**Resultados:**
+* **Tiempo total de procesamiento secuencial:** 3.5355 segundos
+* **Tiempo total de procesamiento paralelo (Pipeline):** 3.4346 segundos
 
 ### Análisis de Rendimiento (Texto)
-Para el procesamiento de este volumen de texto (más de 111 millones de caracteres), el enfoque paralelo o de *pipeline* demuestra ser aproximadamente un **40% más rápido** que el enfoque secuencial. La reducción del tiempo de ejecución indica que, ante cargas de datos masivas como un archivo de 521 mil líneas, el costo computacional de dividir y gestionar la carga de trabajo paralela está más que justificado por el ahorro en el tiempo total de procesamiento.
+Los resultados del Ejercicio 2 muestran un comportamiento muy interesante del procesamiento en paralelo frente a diferentes tipos de carga:
+
+* **Con carga computacional normal (Prueba 1):** El modelo paralelo es aproximadamente un **40% más rápido**. La distribución de las tareas compensa ampliamente el costo de la paralelización.
+* **Con carga computacional extrema (Prueba 2):** Los tiempos generales casi se duplican para ambos enfoques (pasando de ~1.9s a ~3.5s) debido a la pesada carga de limpieza (`strip`) y conversión (`upper`). Aunque el enfoque paralelo sigue siendo más rápido (3.43s vs 3.53s), **la brecha de rendimiento se cierra drásticamente**. 
+Esto ocurre porque, ante líneas tan largas y pesadas, el "cuello de botella" deja de ser exclusivamente el procesamiento en la CPU y pasa a ser la **velocidad de lectura/escritura del disco (I/O)** y el movimiento de grandes bloques de memoria entre los procesos. Los 12 núcleos están listos para trabajar, pero tienen que esperar a que el sistema operativo mueva estos datos masivos, limitando la ventaja de la paralelización.
