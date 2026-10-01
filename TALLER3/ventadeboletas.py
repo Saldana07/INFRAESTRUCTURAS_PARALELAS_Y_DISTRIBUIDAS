@@ -241,7 +241,7 @@ if __name__ == "__main__":
           f"pago = {TIEMPO_PAGO}s, pasarela = {PAGOS_SIMULTANEOS} simultáneos\n")
 
     # Repite 3 veces para ver que el comportamiento es consistente
-    for corrida in range(1, 6):
+    for corrida in range(1, 4):
         print(f"--- Corrida {corrida} ---")
         s = corrida * 1000                     # semilla distinta por corrida
         ejecutar("V1  sin lock", comprar_v1, s)
